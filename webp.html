@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>Browser Image Converter</h2>
+
+    <input type="file" id="upload" webkitdirectory directory multiple>
+
+    <select id="format">
+        <option value="image/webp">WebP</option>
+    </select>
+
+    <button onclick="convertImages()">Convert</button>
+
+
+    <div id="status"></div>
+    <br>
+
+    <a id="download" style="display:none;">Download Converted Images (.zip)</a>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
