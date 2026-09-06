@@ -32,9 +32,6 @@ function extractNestedStructure(jsonObject) {
                 const loRange = group.zones.map(zone => zone.keyRange.low);
                 const hiRange = group.zones.map(zone => zone.keyRange.high);
 
-                const sampleRate = group.zones[0].voices[0].sampleRate;
-                const preRollSamples = (FALLBACK_PREROLL_MS * sampleRate) / 1000;
-
                 const offsets = new Array(128).fill(0);
                 
                 for (let i = 0; i < baseNotes.length; i++) {
@@ -44,8 +41,8 @@ function extractNestedStructure(jsonObject) {
 
                     for (let j = lo; j <= hi; j++) {
                         const diff = j - base;
-                        const signedOffset = preRollSamples * (1 - Math.pow(0.5, diff / 12));
-                        offsets[j] = Math.round(signedOffset);
+                        const signedOffset = FALLBACK_PREROLL_MS * (1 - Math.pow(0.5, diff / 12));
+                        offsets[j] = signedOffset;
                     }
                 }
                 return { name: gIdx, offsets };
@@ -77,9 +74,11 @@ function toFlatCMajorArray(articulations) {
         });
     });
 
+    const formattedValues = flat.map(v => `${v.toFixed(3)}f`).join(", ");
+
     let output = "";
     output += `// dims: [articulations=${numArticulations}][variations=${maxVariations}][groups=${maxGroups}][notes=${NOTE_COUNT}]\n`;
-    output += `int[${totalSize}] preRollOffsetTable = (\n   ${flat.join(", ")}\n);\n`;
+    output += `float[${totalSize}] preRollOffsetTableMs = (\n   ${formattedValues}\n);\n`;
 
     return output;
 }
@@ -99,7 +98,7 @@ copyBtn.addEventListener("click", async function() {
 
 async function copyCMajorArraysToClipboard(jsonObject) {
     const articulations = extractNestedStructure(jsonObject);
-    const currentCMajorText = toFlatCMajorArray(articulations);
+    currentCMajorText = toFlatCMajorArray(articulations);
 
     const toastBootstrap = bootstrap.Toast.getOrCreateInstance(copyToast);
     toastBody.innerText = currentCMajorText;
