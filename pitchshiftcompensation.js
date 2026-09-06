@@ -1,4 +1,7 @@
 const fileInput = document.getElementById('fileInput');
+const copyToast = document.getElementById("copyToast");
+const toastBody = document.getElementById("toastBody");
+const copyBtn = document.getElementById("copyToClipboard");
 
 fileInput.addEventListener('change', async (event) => {
     const file = event.target.files[0];
@@ -81,10 +84,26 @@ function toFlatCMajorArray(articulations) {
     return output;
 }
 
+let currentCMajorText = "";
+
+copyBtn.addEventListener("click", async function() {
+    await navigator.clipboard.writeText(currentCMajorText);
+
+    const originalLabel = copyBtn.innerText;
+    copyBtn.innerText = "Copied!";
+
+    setTimeout(() => {
+        copyBtn.innerText = originalLabel;
+    }, 1500);
+});
+
 async function copyCMajorArraysToClipboard(jsonObject) {
     const articulations = extractNestedStructure(jsonObject);
-    const cmajorText = toFlatCMajorArray(articulations);
+    const currentCMajorText = toFlatCMajorArray(articulations);
 
-    await navigator.clipboard.writeText(cmajorText);
-    console.log(cmajorText);
+    const toastBootstrap = bootstrap.Toast.getOrCreateInstance(copyToast);
+    toastBody.innerText = currentCMajorText;
+    toastBootstrap.show();
+    
+    console.log(currentCMajorText);
 }
