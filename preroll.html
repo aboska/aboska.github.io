@@ -14,18 +14,19 @@
         <label class="input-group-text" for="inputFile">Upload</label>
         <input type="file" class="form-control" id="fileInput" accept=".kd">
     </div>
-    <div class="toast-container position-fixed top-50 start-50 translate-middle p3">
-        <div id="copyToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-            <div class="toast-header">
-                <strong class="me-auto">Result</strong>
-                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-            </div>
-            <div class="toast-body">
-                <div id="toastBody" class="text-center">
-
+    <div class="modal fade" id="resultModal" tabindex="-1" aria-labelledby="resultModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable">
+            <div class="moda-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="resultModalLabel">Result</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <br>
-                <btn class="btn btn-primary position-relative start-50 translate-middle-x" id="copyToClipboard">Copy</btn>
+                <div class="modal-body">
+                    <pre id="modalBody" style="white-space: pre-wrap; word-break: break-word;"></pre>
+                </div>
+                <div class="modal-footer">
+                    <btn class="btn btn-primary" id="copyToClipboard">Copy</btn>
+                </div>
             </div>
         </div>
     </div>

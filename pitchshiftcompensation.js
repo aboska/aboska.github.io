@@ -1,6 +1,6 @@
 const fileInput = document.getElementById('fileInput');
-const copyToast = document.getElementById("copyToast");
-const toastBody = document.getElementById("toastBody");
+const resultModal = document.getElementById("resultModal");
+const modalBody = document.getElementById("modalBody");
 const copyBtn = document.getElementById("copyToClipboard");
 
 fileInput.addEventListener('change', async (event) => {
@@ -100,9 +100,10 @@ async function copyCMajorArraysToClipboard(jsonObject) {
     const articulations = extractNestedStructure(jsonObject);
     currentCMajorText = toFlatCMajorArray(articulations);
 
-    const toastBootstrap = bootstrap.Toast.getOrCreateInstance(copyToast);
-    toastBody.innerText = currentCMajorText;
-    toastBootstrap.show();
+    modalBody.innerText = currentCMajorText;
+
+    const modalInstance = bootstrap.Modal.getOrCreateInstance(resultModal);
+    modalInstance.show();
     
     console.log(currentCMajorText);
 }
